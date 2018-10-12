@@ -1,2 +1,0 @@
-# FormulaEditor
-Created with CodeSandbox
