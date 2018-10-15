@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TextArea, Dropdown, Segment } from "semantic-ui-react";
+import { TextArea, Dropdown, Segment, Form, Button } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 const metrics = [
   {
@@ -19,28 +19,73 @@ const metrics = [
     value: "Cost"
   }
 ];
-let formula = "";
+
+const operators = [
+  {
+    text: "+",
+    value: "+"
+  },
+  {
+    text: "-",
+    value: "-"
+  },
+  {
+    text: "*",
+    value: "*"
+  }
+];
+let buildFormula = "";
 class FormulaEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedMetrics: ""
+      selectedMetrics: "",
+      selectedOperators: "",
+      formula: ""
     };
     this.handleMetricsDropdownClick = this.handleMetricsDropdownClick.bind(
       this
     );
+    this.handleOperatorsDropdownClick = this.handleOperatorsDropdownClick.bind(
+      this
+    );
+    this.handleClearOnClick = this.handleClearOnClick.bind(this);
   }
-  handleMetricsDropdownClick = (e, { value }) => {
-    formula = formula.concat(value);
-    console.log("Formula :" + formula);
+  handleClearOnClick = () => {
+    buildFormula = "";
     this.setState(ps => {
       return {
         ...ps,
-        selectedMetrics: value
+        selectedMetrics: "",
+        selectedOperators: "",
+        formula: ""
+      };
+    });
+  };
+  handleMetricsDropdownClick = (e, { value }) => {
+    buildFormula = buildFormula.concat(value);
+    console.log("Formula :" + buildFormula);
+    this.setState(ps => {
+      return {
+        ...ps,
+        selectedMetrics: value,
+        formula: buildFormula
       };
     });
 
     console.log(this.state.selectedMetrics);
+  };
+
+  handleOperatorsDropdownClick = (e, { value }) => {
+    buildFormula = buildFormula.concat(value);
+    console.log("Formula :" + buildFormula);
+    this.setState(ps => {
+      return {
+        ...ps,
+        selectedOperators: value,
+        formula: buildFormula
+      };
+    });
   };
 
   render() {
@@ -53,11 +98,20 @@ class FormulaEditor extends React.Component {
             options={metrics}
             onChange={this.handleMetricsDropdownClick}
           />
-          <TextArea
-            placeholder="Formula"
-            style={{ minHeight: 100 }}
-            value={formula}
+          <Dropdown
+            selection
+            options={operators}
+            onChange={this.handleOperatorsDropdownClick}
           />
+          <Form>
+            <TextArea
+              placeholder="Formula"
+              style={{ minHeight: 100 }}
+              value={this.state.formula}
+              onChange={this.handleFormulaDropdownClick}
+            />
+            <Button onClick={this.handleClearOnClick}>Clear</Button>
+          </Form>
         </Segment>
       </div>
     );
