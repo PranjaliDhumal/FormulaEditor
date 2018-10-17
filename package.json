@@ -7,6 +7,7 @@
   "dependencies": {
     "react": "16.5.2",
     "react-dom": "16.5.2",
+    "react-input-trigger": "1.1.2",
     "react-mentions": "2.3.1",
     "react-scripts": "2.0.3",
     "semantic-ui-css": "2.4.0",

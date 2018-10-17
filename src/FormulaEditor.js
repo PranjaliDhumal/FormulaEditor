@@ -1,6 +1,8 @@
 import React from "react";
-
+import InputTrigger from "react-input-trigger";
 import { TextArea, Dropdown, Segment, Form, Button } from "semantic-ui-react";
+import { MentionsInput, Mention } from "react-mentions";
+
 import "semantic-ui-css/semantic.min.css";
 const metrics = [
   {
@@ -50,6 +52,7 @@ class FormulaEditor extends React.Component {
       this
     );
     this.handleClearOnClick = this.handleClearOnClick.bind(this);
+    this.handleFormulaOnInput = this.handleFormulaOnInput.bind(this);
   }
   handleClearOnClick = () => {
     buildFormula = "";
@@ -87,7 +90,14 @@ class FormulaEditor extends React.Component {
       };
     });
   };
-
+  handleFormulaOnInput = (e, { value }) => {
+    this.setState(ps => {
+      return {
+        ...ps,
+        formula: value
+      };
+    });
+  };
   render() {
     return (
       <div>
@@ -97,21 +107,48 @@ class FormulaEditor extends React.Component {
             selection
             options={metrics}
             onChange={this.handleMetricsDropdownClick}
+            style={{ margin: "5%" }}
           />
           <Dropdown
             selection
+            placeholder="Select Operators"
             options={operators}
             onChange={this.handleOperatorsDropdownClick}
+            style={{ margin: "5%" }}
           />
-          <Form>
+          <br />
+          <InputTrigger
+            trigger={{
+              keyCode: 50,
+              shiftKey: true
+            }}
+          >
             <TextArea
               placeholder="Formula"
-              style={{ minHeight: 100 }}
+              style={{ minWidth: 400, margin: "5%" }}
               value={this.state.formula}
-              onChange={this.handleFormulaDropdownClick}
+              onInput={this.handleFormulaOnInput}
+              fluid
             />
-            <Button onClick={this.handleClearOnClick}>Clear</Button>
-          </Form>
+          </InputTrigger>
+          <MentionsInput
+            value={this.state.formula}
+            onChange={this.handleFormulaOnInput}
+          >
+            <Mention trigger="@" data={this.state.metrics} />
+            <Mention trigger="@" data={this.state.metrics} />
+          </MentionsInput>
+          <br />
+          <TextArea
+            placeholder="Formula"
+            style={{ minWidth: 400, margin: "5%" }}
+            value={this.state.formula}
+            onInput={this.handleFormulaOnInput}
+            fluid
+          >
+            <Mention trigger="@" data={metrics} />
+          </TextArea>
+          <Button onClick={this.handleClearOnClick}>Clear</Button>
         </Segment>
       </div>
     );
