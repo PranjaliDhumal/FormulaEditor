@@ -2,23 +2,28 @@ import React from "react";
 import InputTrigger from "react-input-trigger";
 import { TextArea, Dropdown, Segment, Form, Button } from "semantic-ui-react";
 import { MentionsInput, Mention } from "react-mentions";
-
 import "semantic-ui-css/semantic.min.css";
 const metrics = [
   {
+    id: "Total",
     text: "Total",
     type: "Number",
-    value: "Total"
+    value: "Total",
+    display: "Total"
   },
   {
+    id: "Average",
     text: "Average",
     type: "Number",
-    value: "Average"
+    value: "Average",
+    display: "Average"
   },
   {
+    id: "Cost",
     text: "Cost",
     type: "Currency",
-    value: "Cost"
+    value: "Cost",
+    display: "Cost"
   }
 ];
 
@@ -90,7 +95,7 @@ class FormulaEditor extends React.Component {
       };
     });
   };
-  handleFormulaOnInput = (e, { value }) => {
+  handleFormulaOnInput = (e, value) => {
     this.setState(ps => {
       return {
         ...ps,
@@ -117,37 +122,15 @@ class FormulaEditor extends React.Component {
             style={{ margin: "5%" }}
           />
           <br />
-          <InputTrigger
-            trigger={{
-              keyCode: 50,
-              shiftKey: true
-            }}
-          >
-            <TextArea
-              placeholder="Formula"
-              style={{ minWidth: 400, margin: "5%" }}
-              value={this.state.formula}
-              onInput={this.handleFormulaOnInput}
-              fluid
-            />
-          </InputTrigger>
+
+          <br />
           <MentionsInput
             value={this.state.formula}
             onChange={this.handleFormulaOnInput}
           >
-            <Mention trigger="@" data={this.state.metrics} />
-            <Mention trigger="@" data={this.state.metrics} />
+            <Mention trigger="@" data={metrics} />
           </MentionsInput>
           <br />
-          <TextArea
-            placeholder="Formula"
-            style={{ minWidth: 400, margin: "5%" }}
-            value={this.state.formula}
-            onInput={this.handleFormulaOnInput}
-            fluid
-          >
-            <Mention trigger="@" data={metrics} />
-          </TextArea>
           <Button onClick={this.handleClearOnClick}>Clear</Button>
         </Segment>
       </div>
