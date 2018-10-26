@@ -3,6 +3,37 @@ import InputTrigger from "react-input-trigger";
 import { TextArea, Dropdown, Segment, Form, Button } from "semantic-ui-react";
 import { MentionsInput, Mention } from "react-mentions";
 import "semantic-ui-css/semantic.min.css";
+
+const style = {
+  highlighter: {
+    padding: 9,
+    border: "2px inset transparent"
+  },
+
+  input: {
+    padding: 9,
+    minHeight: 63,
+    outline: 0,
+    border: "1px solid silver",
+    fontFamily: "monospace"
+  },
+  suggestions: {
+    list: {
+      backgroundColor: "white",
+      border: "1px solid rgba(0,0,0,0.15)",
+      fontSize: 10
+    },
+
+    item: {
+      padding: "5px 15px",
+      borderBottom: "1px solid rgba(0,0,0,0.15)",
+
+      "&focused": {
+        backgroundColor: "lightblue"
+      }
+    }
+  }
+};
 const metrics = [
   {
     id: "Total",
@@ -96,6 +127,7 @@ class FormulaEditor extends React.Component {
     });
   };
   handleFormulaOnInput = (e, value) => {
+    buildFormula = value;
     this.setState(ps => {
       return {
         ...ps,
@@ -127,8 +159,9 @@ class FormulaEditor extends React.Component {
           <MentionsInput
             value={this.state.formula}
             onChange={this.handleFormulaOnInput}
+            style={style}
           >
-            <Mention trigger="@" data={metrics} />
+            <Mention trigger="@" data={metrics} highlighted />
           </MentionsInput>
           <br />
           <Button onClick={this.handleClearOnClick}>Clear</Button>
